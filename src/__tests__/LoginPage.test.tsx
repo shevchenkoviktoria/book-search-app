@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom'
 import { render, screen, fireEvent } from '@testing-library/react'
-import { LoginPage } from '../src/LoginPage'
+import { LoginPage } from '../LoginPage'
 
 describe('LoginPage', () => {
   const onLoginMock = jest.fn()

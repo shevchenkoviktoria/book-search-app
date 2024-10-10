@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom'
 import { render, screen, fireEvent } from '@testing-library/react'
-import { App } from '../src/App'
+import { App } from '../App'
 
 describe('App', () => {
   it('displays login page when not authenticated', () => {

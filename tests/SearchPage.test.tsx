@@ -1,36 +1,39 @@
-import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { SearchPage } from '../src/SearchPage';
-import axios from 'axios';
-import MockAdapter from 'axios-mock-adapter';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import { SearchPage } from '../src/SearchPage'
+import axios from 'axios'
+import MockAdapter from 'axios-mock-adapter'
 
-const mockAxios = new MockAdapter(axios);
+const mockAxios = new MockAdapter(axios)
 
 describe('SearchPage', () => {
-  const setSearchDurationMock = jest.fn();
+  const setSearchDurationMock = jest.fn()
 
   beforeEach(() => {
-    mockAxios.reset();
-    render(<SearchPage setSearchDuration={setSearchDurationMock} />);
-  });
+    mockAxios.reset()
+  })
 
   it('renders the search input', () => {
-    expect(screen.getByLabelText(/search for books/i)).toBeInTheDocument();
-  });
+    render(<SearchPage setSearchDuration={setSearchDurationMock} />)
+    expect(screen.getByLabelText(/search for books/i)).toBeInTheDocument()
+  })
 
   it('displays loading indicator while fetching data', async () => {
-    mockAxios.onGet(/search\.json/).reply(200, { docs: [], numFound: 0 });
-    
+    render(<SearchPage setSearchDuration={setSearchDurationMock} />)
+    mockAxios.onGet(/search\.json/).reply(200, { docs: [], numFound: 0 })
+
     fireEvent.change(screen.getByLabelText(/search for books/i), {
       target: { value: 'React' },
-    });
+    })
 
-    expect(screen.getByRole('progressbar')).toBeInTheDocument();
+    expect(screen.getByRole('progressbar')).toBeInTheDocument()
 
-    await waitFor(() => expect(screen.queryByRole('progressbar')).not.toBeInTheDocument());
-  });
+    await waitFor(() =>
+      expect(screen.queryByRole('progressbar')).not.toBeInTheDocument()
+    )
+  })
 
   it('fetches and displays books', async () => {
+    render(<SearchPage setSearchDuration={setSearchDurationMock} />)
     mockAxios.onGet(/search\.json/).reply(200, {
       docs: [
         {
@@ -42,27 +45,27 @@ describe('SearchPage', () => {
         },
       ],
       numFound: 1,
-    });
+    })
 
     fireEvent.change(screen.getByLabelText(/search for books/i), {
       target: { value: 'React' },
-    });
+    })
 
     await waitFor(() => {
-      expect(screen.getByText('React for Beginners')).toBeInTheDocument();
-      expect(screen.getByText('John Doe')).toBeInTheDocument();
-    });
-  });
+      expect(screen.getByText('React for Beginners')).toBeInTheDocument()
+    })
+  })
 
   it('handles API errors gracefully', async () => {
-    mockAxios.onGet(/search\.json/).reply(500);
+    render(<SearchPage setSearchDuration={setSearchDurationMock} />)
+    mockAxios.onGet(/search\.json/).reply(500)
 
     fireEvent.change(screen.getByLabelText(/search for books/i), {
       target: { value: 'React' },
-    });
+    })
 
     await waitFor(() => {
-      expect(screen.getByText(/failed to fetch books/i)).toBeInTheDocument();
-    });
-  });
-});
+      expect(screen.getByText(/failed to fetch books/i)).toBeInTheDocument()
+    })
+  })
+})

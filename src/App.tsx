@@ -11,7 +11,7 @@ import {
 import { LoginPage } from './LoginPage'
 import { SearchPage } from './SearchPage'
 
-export const App: React.FC = () => {
+export const App = () => {
   const [authenticated, setAuthenticated] = useState<boolean>(false)
   const [username, setUsername] = useState<string | null>(null)
   const [searchDuration, setSearchDuration] = useState<number>(0)

@@ -1,13 +1,20 @@
 import React, { useState } from 'react'
 import { SearchPage } from './SearchPage'
 import { LoginPage } from './LoginPage'
-import { AppBar, Toolbar, Typography, Button, Container, Box } from '@mui/material'
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  Container,
+  Box,
+} from '@mui/material'
 
 export const App: React.FC = () => {
-  const [authenticated, setAuthenticated] = useState<boolean>(false); // Track authentication state
-  const [username, setUsername] = useState<string | null>(null); // Track logged-in user's name
-  const [averageSearchDuration, setAverageSearchDuration] = useState<number>(0); // Track average search duration
-  const [totalSearchTime, setTotalSearchTime] = useState<number>(0); // Track total search time
+  const [authenticated, setAuthenticated] = useState<boolean>(false)
+  const [username, setUsername] = useState<string | null>(null)
+  const [averageSearchDuration, setAverageSearchDuration] = useState<number>(0)
+  const [totalSearchTime, setTotalSearchTime] = useState<number>(0)
   const [searchCount, setSearchCount] = useState<number>(0)
 
   const handleLogin = (user: string) => {
@@ -21,14 +28,14 @@ export const App: React.FC = () => {
   }
 
   const updateAverageSearchDuration = (duration: number) => {
-    const newTotalSearchTime = totalSearchTime + duration;
-    const newSearchCount = searchCount + 1;
-    const newAverage = newTotalSearchTime / newSearchCount;
+    const newTotalSearchTime = totalSearchTime + duration
+    const newSearchCount = searchCount + 1
+    const newAverage = newTotalSearchTime / newSearchCount
 
-    setTotalSearchTime(newTotalSearchTime);
-    setSearchCount(newSearchCount);
-    setAverageSearchDuration(newAverage);
-  };
+    setTotalSearchTime(newTotalSearchTime)
+    setSearchCount(newSearchCount)
+    setAverageSearchDuration(newAverage)
+  }
 
   return (
     <Container maxWidth="md">
@@ -57,9 +64,7 @@ export const App: React.FC = () => {
 
       {/* Conditional rendering of SearchPage or LoginPage */}
       {authenticated ? (
-        <SearchPage 
-          setSearchDuration={updateAverageSearchDuration} 
-        />
+        <SearchPage setSearchDuration={updateAverageSearchDuration} />
       ) : (
         <LoginPage onLogin={handleLogin} />
       )}

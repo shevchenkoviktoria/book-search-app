@@ -18,7 +18,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
     <Box mt={5} textAlign="center">
       <TextField
         size="medium"
-        label="Username"
+        label="User Name"
         variant="outlined"
         value={username}
         onChange={(e) => setUsername(e.target.value)}

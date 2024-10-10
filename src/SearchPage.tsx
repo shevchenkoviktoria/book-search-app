@@ -129,7 +129,7 @@ export const SearchPage: React.FC<SearchPageProps> = ({
       )}
 
       {loading ? (
-        <Box textAlign="center" mt={2}>
+        <Box textAlign="center" mt={2} mb={2}>
           <CircularProgress />
           <Typography variant="body2">Loading...</Typography>
         </Box>

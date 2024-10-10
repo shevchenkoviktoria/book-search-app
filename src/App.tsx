@@ -1,26 +1,68 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
+import { SearchPage } from './SearchPage'
+import { LoginPage } from './LoginPage'
+import { AppBar, Toolbar, Typography, Button, Container, Box } from '@mui/material'
 
-function App() {
+export const App: React.FC = () => {
+  const [authenticated, setAuthenticated] = useState<boolean>(false); // Track authentication state
+  const [username, setUsername] = useState<string | null>(null); // Track logged-in user's name
+  const [averageSearchDuration, setAverageSearchDuration] = useState<number>(0); // Track average search duration
+  const [totalSearchTime, setTotalSearchTime] = useState<number>(0); // Track total search time
+  const [searchCount, setSearchCount] = useState<number>(0)
+
+  const handleLogin = (user: string) => {
+    setUsername(user)
+    setAuthenticated(true)
+  }
+
+  const handleLogout = () => {
+    setUsername(null)
+    setAuthenticated(false)
+  }
+
+  const updateAverageSearchDuration = (duration: number) => {
+    const newTotalSearchTime = totalSearchTime + duration;
+    const newSearchCount = searchCount + 1;
+    const newAverage = newTotalSearchTime / newSearchCount;
+
+    setTotalSearchTime(newTotalSearchTime);
+    setSearchCount(newSearchCount);
+    setAverageSearchDuration(newAverage);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+    <Container maxWidth="md">
+      {/* AppBar for header with authentication status */}
+      <AppBar position="static" color="primary">
+        <Toolbar>
+          <Typography variant="h6" sx={{ flexGrow: 1 }}>
+            {authenticated ? `Welcome, ${username}!` : 'Book Search App'}
+          </Typography>
+          {authenticated ? (
+            <Button color="inherit" onClick={handleLogout}>
+              Logout
+            </Button>
+          ) : (
+            <Button color="inherit" onClick={() => handleLogin('User')}>
+              Login
+            </Button>
+          )}
+          <Box ml={2}>
+            <Typography variant="body2">
+              Avg Search Duration: {averageSearchDuration.toFixed(2)} ms
+            </Typography>
+          </Box>
+        </Toolbar>
+      </AppBar>
 
-export default App;
+      {/* Conditional rendering of SearchPage or LoginPage */}
+      {authenticated ? (
+        <SearchPage 
+          setSearchDuration={updateAverageSearchDuration} 
+        />
+      ) : (
+        <LoginPage onLogin={handleLogin} />
+      )}
+    </Container>
+  )
+}

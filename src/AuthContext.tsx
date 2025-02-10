@@ -1,15 +1,6 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react'
+import { AuthContextType, AuthProviderProps } from './types/types'
 
-type AuthContextType = {
-  authenticated: boolean
-  username: string | null
-  login: (username: string) => void
-  logout: () => void
-}
-
-type AuthProviderProps = {
-  children: ReactNode
-}
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
@@ -21,7 +12,7 @@ export const useAuth = () => {
   return context
 }
 
-export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }: { children: ReactNode }) => {
   const [authenticated, setAuthenticated] = useState<boolean>(false)
   const [username, setUsername] = useState<string | null>(null)
 

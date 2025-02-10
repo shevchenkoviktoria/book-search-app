@@ -1,4 +1,4 @@
-This repository contains a web application designed for authenticated users to search for books and view detailed information in a structured format.
+Web application designed for authenticated users to search for books and view detailed information in a structured format.
 The application features a responsive search field that dynamically updates results as users type and a table displaying relevant book details.
 
 # Layout
